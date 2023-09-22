@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 const MapScreen = () => {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>MapScreen</Text>
+      <Text>Your Map Screen</Text>
     </View>
   );
 }

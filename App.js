@@ -1,19 +1,19 @@
-import React from "react";
-import CommunityScreen from "./app/screens/CommunityScreen";
-import MapScreen from "./app/screens/MapScreen";
-import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { SvgUri } from 'react-native-svg';
-import colors from "./app/config/colors";
-// import Icon from 'react-native-vector-icons/FontAwesome';
+import LoginScreen from './app/screens/LoginScreen'; // Import the LoginScreen component
+import CommunityScreen from './app/screens/CommunityScreen';
+import MapScreen from './app/screens/MapScreen';
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
-const App = () => {
+const MainTabNavigator  = () => {
     return (
-        <Tab.Navigator>
+        <Tab.Navigator
+        initialRouteName="Community">
             <Tab.Screen
                 name="Map"
                 component={MapScreen}
@@ -61,12 +61,7 @@ const App = () => {
                 options={{
                     tabBarLabel: 'Profile',
                     tabBarIcon: ({ color, size }) => (
-                        <SvgUri
-                            width={50}
-                            height={50}
-                            source={require('./assets/icons/community.svg')}
-                            fill={colors.blue} // Customize the fill color if needed
-                        />
+                        <Icon name="rocket" size={30} color="#900" />
                     ),
                 }}
             />
@@ -76,11 +71,20 @@ const App = () => {
     );
 };
 
-
-export default () => {
+const App = () => {
     return (
-        <NavigationContainer>
-            <App />
-        </NavigationContainer>
-    )
-}
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Login"
+        screenOptions={{
+            headerShown: false,
+            cardStyle: { flex: 1},
+          }}>
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Main" component={MainTabNavigator} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  };
+
+
+export default App;
