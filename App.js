@@ -7,6 +7,8 @@ import LoginScreen from './app/screens/LoginScreen'; // Import the LoginScreen c
 import CommunityScreen from './app/screens/CommunityScreen';
 import MapScreen from './app/screens/MapScreen';
 import SOSSCreen from './app/screens/SOSScreen';
+import ProfileScreen from './app/screens/ProfileScreen';
+import AddPostScreen from './app/screens/AddPostScreen';
 import colors from './app/config/colors';
 
 const Tab = createBottomTabNavigator();
@@ -24,6 +26,7 @@ const MainTabNavigator  = () => {
                     tabBarIcon: ({ color, size }) => (
                         <Icon name="pin-drop" size={30} color={colors.primary} />
                     ),
+                    headerShown:false
                 }}
             />
 
@@ -50,7 +53,7 @@ const MainTabNavigator  = () => {
             />
             <Tab.Screen
                 name="Add Post"
-                component={CommunityScreen}
+                component={AddPostScreen}
                 options={{
                     tabBarLabel: 'Add Post',
                     tabBarIcon: ({ color, size }) => (
@@ -60,12 +63,13 @@ const MainTabNavigator  = () => {
             />
             <Tab.Screen
                 name="Profile"
-                component={CommunityScreen}
+                component={ProfileScreen}
                 options={{
                     tabBarLabel: 'Profile',
                     tabBarIcon: ({ color, size }) => (
                         <Icon name="person" size={30} color={colors.primary} />
                     ),
+                    headerShown: false,
                 }}
             />
 
@@ -82,7 +86,7 @@ const App = () => {
             headerShown: false,
             cardStyle: { flex: 1, backgroundColor: colors.white},
           }}>
-          {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
+          <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Main" component={MainTabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>

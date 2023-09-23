@@ -10,4 +10,5 @@ export default {
     border: "#C3C3C3",
     separator: "#ECECEC",
     postIconDark: "#5E5E5E",
+    areaShade: "#FBFBFB",
   };
