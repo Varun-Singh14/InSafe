@@ -1,14 +1,10 @@
-import React, {useState} from 'react';
-import { View, Text } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { WebView } from 'react-native-webview';
 
 const MapScreen = () => {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Your Map Screen</Text>
-    </View>
+    <WebView source={{ uri: 'https://surya152002.github.io/sih/' }}/>
   );
-}
+};
 
 export default MapScreen;
-

@@ -6,6 +6,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import LoginScreen from './app/screens/LoginScreen'; // Import the LoginScreen component
 import CommunityScreen from './app/screens/CommunityScreen';
 import MapScreen from './app/screens/MapScreen';
+import SOSSCreen from './app/screens/SOSScreen';
+import colors from './app/config/colors';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -20,7 +22,7 @@ const MainTabNavigator  = () => {
                 options={{
                     tabBarLabel: 'Map',
                     tabBarIcon: ({ color, size }) => (
-                        <Icon name="home" size={30} color="#900" />
+                        <Icon name="pin-drop" size={30} color={colors.primary} />
                     ),
                 }}
             />
@@ -31,18 +33,19 @@ const MainTabNavigator  = () => {
                 options={{
                     tabBarLabel: 'Community',
                     tabBarIcon: ({ color, size }) => (
-                        <Icon name="rocket" size={30} color="#900" />
+                        <Icon name="group-work" size={30} color={colors.primary} />
                     ),
                 }}
             />
             <Tab.Screen
-                name="sos"
-                component={CommunityScreen}
+                name="SOS"
+                component={SOSSCreen}
                 options={{
                     tabBarLabel: 'SOS',
                     tabBarIcon: ({ color, size }) => (
-                        <Icon name="rocket" size={30} color="#900" />
+                        <Icon name="sos" size={30} color={colors.red} />
                     ),
+                    headerShown: false,
                 }}
             />
             <Tab.Screen
@@ -51,7 +54,7 @@ const MainTabNavigator  = () => {
                 options={{
                     tabBarLabel: 'Add Post',
                     tabBarIcon: ({ color, size }) => (
-                        <Icon name="rocket" size={30} color="#900" />
+                        <Icon name="add" size={30} color={colors.primary} />
                     ),
                 }}
             />
@@ -61,7 +64,7 @@ const MainTabNavigator  = () => {
                 options={{
                     tabBarLabel: 'Profile',
                     tabBarIcon: ({ color, size }) => (
-                        <Icon name="rocket" size={30} color="#900" />
+                        <Icon name="person" size={30} color={colors.primary} />
                     ),
                 }}
             />
@@ -77,9 +80,9 @@ const App = () => {
         <Stack.Navigator initialRouteName="Login"
         screenOptions={{
             headerShown: false,
-            cardStyle: { flex: 1},
+            cardStyle: { flex: 1, backgroundColor: colors.white},
           }}>
-          <Stack.Screen name="Login" component={LoginScreen} />
+          {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
           <Stack.Screen name="Main" component={MainTabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>
