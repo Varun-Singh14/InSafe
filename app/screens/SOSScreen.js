@@ -1,11 +1,78 @@
-import React, {useState, useEffect} from 'react';
-import { View, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, AppState } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import colors from '../config/colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import RingerMode from 'rn-ringer-mode';
+import DeviceInfo from 'react-native-device-info';
+
+
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
 
 const SOSScreen = () => {
+
+    const [ringerMode, setRingerMode] = useState('');
+    const [appState, setAppState] = useState(AppState.currentState);
+
+    const handleAppStateChange = (nextAppState) => {
+        setAppState(nextAppState);
+    };
+
+    const getRingerMode = async () => {
+        try {
+            const mode = await RingerMode.getRingerMode();
+            setRingerMode(capitalizeFirstLetter(mode));
+        } catch (error) {
+            console.error('Error getting ringer mode:', error);
+        }
+    };
+
+    useEffect(() => {
+        AppState.addEventListener('change', handleAppStateChange);
+        getRingerMode();
+
+        const ringerModeInterval = setInterval(getRingerMode, 5000);
+
+        return () => {
+            AppState.removeEventListener('change', handleAppStateChange);
+            clearInterval(ringerModeInterval);
+        };
+    }, []);
+
+    const [batteryInfo, setBatteryInfo] = useState({});
+
+    const getBatteryInfo = async () => {
+        try {
+            const batteryLevel = await DeviceInfo.getBatteryLevel();
+            if (typeof batteryLevel === 'number' && !isNaN(batteryLevel)) {
+                const batteryInfoObject = (batteryLevel * 100).toFixed(0)+"%"
+                setBatteryInfo(batteryInfoObject);
+            } else {
+                console.error('Invalid battery level:', batteryLevel);
+            }
+        } catch (error) {
+            console.error('Error getting battery info:', error);
+            setBatteryInfo({});
+        }
+    };
+
+    useEffect(() => {
+        // Fetch the initial battery info when the component mounts
+        getBatteryInfo();
+
+        // Periodically check the battery info (e.g., every 5 seconds)
+        const batteryInfoInterval = setInterval(getBatteryInfo, 5000);
+
+        // Clean up the interval when the component unmounts
+        return () => {
+            clearInterval(batteryInfoInterval);
+        };
+    }, []);
+
     return (
         <>
             <ScrollView
@@ -143,7 +210,7 @@ const SOSScreen = () => {
                                                     color: colors.dark,
                                                 }}
                                             >
-                                                43%
+                                                {JSON.stringify(batteryInfo, null, 2)}
                                             </Text>
                                         </View>
                                     </View>
@@ -174,7 +241,7 @@ const SOSScreen = () => {
                                                     color: colors.dark,
                                                 }}
                                             >
-                                                silent
+                                                {ringerMode}
                                             </Text>
                                         </View>
                                     </View>
@@ -296,4 +363,4 @@ const SOSScreen = () => {
     )
 }
 
-export default SOSScreen
+export default SOSScreen;
