@@ -2145,6 +2145,11 @@
   "resolved" "https://registry.npmjs.org/@react-native-community/geolocation/-/geolocation-3.1.0.tgz"
   "version" "3.1.0"
 
+"@react-native-community/netinfo@^9.4.1":
+  "integrity" "sha512-dAbY5mfw+6Kas/GJ6QX9AZyY+K+eq9ad4Su6utoph/nxyH3whp5cMSgRNgE2VhGQVRZ/OG0qq3IaD3+wzoqJXw=="
+  "resolved" "https://registry.npmjs.org/@react-native-community/netinfo/-/netinfo-9.4.1.tgz"
+  "version" "9.4.1"
+
 "@react-native/assets-registry@^0.72.0":
   "integrity" "sha512-Im93xRJuHHxb1wniGhBMsxLwcfzdYreSZVQGDoMJgkd6+Iky61LInGEHnQCTN0fKNYF1Dvcofb4uMmE1RQHXHQ=="
   "resolved" "https://registry.npmjs.org/@react-native/assets-registry/-/assets-registry-0.72.0.tgz"
@@ -8429,7 +8434,7 @@
     "yeoman-environment" "^1.5.3"
     "yeoman-generator" "^0.21.2"
 
-"react-native@*", "react-native@^0.41.2", "react-native@>= 0.64.3", "react-native@~0.41.0", "react-native@0.72.4":
+"react-native@*", "react-native@^0.41.2", "react-native@>= 0.64.3", "react-native@>=0.59", "react-native@~0.41.0", "react-native@0.72.4":
   "integrity" "sha512-+vrObi0wZR+NeqL09KihAAdVlQ9IdplwznJWtYrjnQ4UbCW6rkzZJebRsugwUneSOKNFaHFEo1uKU89HsgtYBg=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.72.4.tgz"
   "version" "0.72.4"

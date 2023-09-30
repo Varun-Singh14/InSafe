@@ -3,32 +3,28 @@ import { View, Text, Button, ScrollView, SafeAreaView, TextInput, TouchableWitho
 import { useNavigation } from '@react-navigation/native';
 import colors from '../config/colors';
 import SPACING from '../config/SPACING';
+import { firebase } from '../../firebaseConnection';
+
 
 const LoginScreen = () => {
     const navigation = useNavigation();
 
-    const [text1, setText1] = useState('');
-    const [text2, setText2] = useState('');
-
-    const handleTextChange1 = (newText) => {
-        setText1(newText);
-    };
-
-    const handleTextChange2 = (newText) => {
-        setText2(newText);
-    };
+    const [name, setName] = useState('');
+    const [password, setPassword] = useState('');
 
     const [isLoginSuccessful, setIsLoginSuccessful] = useState(false);
 
     const handleLogin = () => {
-        // Implement your login logic here.
-        // If login is successful, set isLoginSuccessful to true.
-        // For example, you can use AsyncStorage or a state management library like Redux.
         setIsLoginSuccessful(true);
-
-        // Navigate to the main page.
         navigation.navigate('Main');
     };
+
+    const insertData = () => {
+        firebase.database().ref('users/' + name).set({
+            fname: name,
+            fpass: password,
+        });
+    }
 
 
     const [isTextInput1Focused, setIsTextInput1Focused] = useState(false);
@@ -110,8 +106,8 @@ const LoginScreen = () => {
                                         onFocus={handleTextInput1Focus}
                                         onBlur={handleBlur}
                                         placeholder="Username"
-                                        onChangeText={handleTextChange1}
-                                        value={text1}
+                                        onChangeText={(text) => setName(text)}
+                                        value={name}
                                     />
                                     <TextInput
                                         style={[
@@ -131,8 +127,8 @@ const LoginScreen = () => {
                                         onFocus={handleTextInput2Focus}
                                         onBlur={handleBlur}
                                         placeholder="Password"
-                                        onChangeText={handleTextChange2}
-                                        value={text2}
+                                        onChangeText={(text) => setPassword(text)}
+                                        value={password}
                                     />
                                     <Text
                                         style={{
@@ -153,7 +149,7 @@ const LoginScreen = () => {
                                         justifyContent: 'center',
                                         alignItems: 'center',
                                     }}
-                                    onPress={handleLogin} >
+                                    onPress={insertData} >
                                     <Text
                                         style={{
                                             color: 'white',

@@ -6,6 +6,7 @@ import colors from '../config/colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import RingerMode from 'rn-ringer-mode';
 import DeviceInfo from 'react-native-device-info';
+import NetInfo from "@react-native-community/netinfo";
 
 
 
@@ -49,7 +50,7 @@ const SOSScreen = () => {
         try {
             const batteryLevel = await DeviceInfo.getBatteryLevel();
             if (typeof batteryLevel === 'number' && !isNaN(batteryLevel)) {
-                const batteryInfoObject = (batteryLevel * 100).toFixed(0)+"%"
+                const batteryInfoObject = (batteryLevel * 100).toFixed(0) + "%"
                 setBatteryInfo(batteryInfoObject);
             } else {
                 console.error('Invalid battery level:', batteryLevel);
@@ -70,6 +71,45 @@ const SOSScreen = () => {
         // Clean up the interval when the component unmounts
         return () => {
             clearInterval(batteryInfoInterval);
+        };
+    }, []);
+
+
+
+    const [signalStrength, setSignalStrength] = useState(null);
+
+    const classifySignalStrength = (strength) => {
+        if (strength >= -70) {
+            return 'Good';
+        } else if (strength >= -85) {
+            return 'Average';
+        } else {
+            return 'Bad';
+        }
+    };
+
+    const checkSignalStrength = async () => {
+        try {
+            const state = await NetInfo.fetch();
+            if (state.type === 'cellular' && state.details) {
+                const strength = state.details.signalStrength;
+                setSignalStrength(strength);
+            } else {
+                setSignalStrength(null);
+            }
+        } catch (error) {
+            console.error('Error getting signal strength:', error);
+            setSignalStrength(null);
+        }
+    };
+
+    useEffect(() => {
+        checkSignalStrength();
+
+        const signalStrengthInterval = setInterval(checkSignalStrength, 5000);
+
+        return () => {
+            clearInterval(signalStrengthInterval);
         };
     }, []);
 
@@ -179,7 +219,8 @@ const SOSScreen = () => {
                                                     color: colors.dark,
                                                 }}
                                             >
-                                                Medium
+                                                {/* Medium */}
+                                                {signalStrength} dBm ({classifySignalStrength(signalStrength)})
                                             </Text>
                                         </View>
                                     </View>
