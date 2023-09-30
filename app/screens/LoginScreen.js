@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Button, ScrollView, SafeAreaView, TextInput, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { View, Text, Button, ScrollView, SafeAreaView, TextInput, TouchableWithoutFeedback, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import colors from '../config/colors';
 import SPACING from '../config/SPACING';
@@ -24,7 +24,53 @@ const LoginScreen = () => {
             fname: name,
             fpass: password,
         });
-    }
+    };
+
+    const updateData = () => {
+        let ref = firebase.database().ref('users/');
+        ref.once("value").then((snapshot) => {
+            console.log(snapshot);
+            var key = Object.keys(snapshot.val());
+            console.log(key);
+            if (key.indexOf(name) >= 0) {
+                firebase.database().ref('users/' + name).update({
+                    fpass: password,
+                });
+            }
+            else {
+                Alert.alert("No Data Available");
+            }
+        })
+    };
+
+    const deleteData = () => {
+        let ref = firebase.database().ref('users/');
+        ref.once("value").then((snapshot) => {
+            var key = Object.keys(snapshot.val());
+            if (key.indexOf(name) >= 0) {
+                firebase.database().ref('users/' + name).remove();
+            }
+            else {
+                Alert.alert("No Data Available");
+            }
+        })
+    };
+
+    const viewData = () => {
+        let ref = firebase.database().ref('users/');
+        ref.once("value").then((snapshot) => {
+            var key = Object.keys(snapshot.val());
+            if (key.includes(name)) {
+                //Users exist
+                firebase.database().ref('users/' + name).once("value").then((snapshot) => {
+                    Alert.alert("name:"+snapshot.val().fname+"pass:"+snapshot.val().fpass);
+                });
+            }
+            else {
+                Alert.alert("No Data Available");
+            }
+        })
+    };
 
 
     const [isTextInput1Focused, setIsTextInput1Focused] = useState(false);
@@ -149,7 +195,7 @@ const LoginScreen = () => {
                                         justifyContent: 'center',
                                         alignItems: 'center',
                                     }}
-                                    onPress={insertData} >
+                                    onPress={viewData} >
                                     <Text
                                         style={{
                                             color: 'white',
