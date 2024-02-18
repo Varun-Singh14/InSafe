@@ -1,4 +1,4 @@
-# Campus Safety App
+# Campus Safety App [INSAFE]
 
 The Campus Safety App is a ReactNative application designed to enhance safety measures within college and university campuses, particularly focusing on women's safety. The app incorporates features for incident reporting, predictive analytics, community involvement, and real-time intervention to prevent mishaps and ensure a secure campus environment.
 
